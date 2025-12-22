@@ -1,0 +1,112 @@
+<div class="min-h-screen nudge-bg-secondary flex">
+  <!-- Left Panel - Login Form -->
+  <div class="w-full lg:w-1/2 flex items-center justify-center p-8">
+    <div class="w-full max-w-md">
+      <!-- Logo -->
+      <div class="flex items-center gap-3 mb-12">
+        <div class="nudge-primary w-14 h-14 rounded-xl flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="text-white">
+            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
+            <polyline points="16 7 22 7 22 13"></polyline>
+          </svg>
+        </div>
+        <h1 class="text-3xl font-bold nudge-text-primary">FinTrack</h1>
+      </div>
+
+      <!-- Welcome Text -->
+      <div class="mb-8">
+        <h2 class="text-3xl font-bold nudge-text-primary mb-2">Welcome back</h2>
+        <p class="nudge-text-secondary">Enter your credentials to access your account</p>
+      </div>
+
+      <!-- Login Form -->
+       <form [formGroup]="loginForm">
+      <div class="space-y-6">
+        <!-- Email Field -->
+        <div>
+          <label class="block text-sm font-medium nudge-text-primary mb-2">
+            Email
+          </label>
+   <p-inputgroup>
+    <p-inputgroup-addon>
+        <i class="pi pi-user"></i>
+    </p-inputgroup-addon>
+    <input pInputText  placeholder="Username" />
+</p-inputgroup>
+        </div>
+
+        <!-- Password Field -->
+        <div>
+          <div class="flex justify-between items-center mb-2">
+            <label class="block text-sm font-medium nudge-text-primary">
+              Password
+            </label>
+            <button 
+             
+              class="text-sm nudge-text-color hover:underline cursor-pointer"
+              type="button"
+            >
+              Forgot password?
+            </button>
+          </div>
+       <p-inputgroup>
+    <p-inputgroup-addon>
+        <i class="pi pi-key"></i>
+    </p-inputgroup-addon>
+  <p-password  [toggleMask]="true" placeholder="Password" />
+</p-inputgroup>
+        </div>
+
+        <!-- Sign In Button -->
+        <button  class="nudge-btn" type="button">
+          Sign in
+        </button>
+
+        <!-- Sign Up Link -->
+        <p class="text-center nudge-text-secondary">
+          Don't have an account? 
+          <button 
+            routerLink="/signup"
+            class="nudge-text-color hover:underline font-medium cursor-pointer"
+            type="button"
+          >
+            Sign up
+          </button>
+        </p>
+      </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Right Panel - Feature Showcase -->
+  <div class="hidden lg:flex w-1/2 nudge-bg-tertiary items-center justify-center p-12">
+    <div class="max-w-xl">
+      <h2 class="text-4xl font-bold nudge-text-primary mb-4">
+        Take control of your finances
+      </h2>
+      <p class="text-lg nudge-text-secondary mb-12">
+        Track expenses, set budgets, and achieve your financial goals with our powerful yet simple finance management tools.
+      </p>
+
+      <!-- Stats Grid -->
+      <div class="grid grid-cols-2 gap-4">
+        <div class="stat-card nudge-bg-primary p-3 rounded">
+          <div class="text-4xl font-bold nudge-text-color mb-1">50K+</div>
+          <div class="nudge-text-secondary">Active Users</div>
+        </div>
+        <div class="stat-card nudge-bg-primary p-3 rounded">
+          <div class="text-4xl font-bold nudge-text-color mb-1">$2M+</div>
+          <div class="nudge-text-secondary">Transactions</div>
+        </div>
+        <div class="stat-card nudge-bg-primary p-3 rounded">
+          <div class="text-4xl font-bold nudge-text-color mb-1">30%</div>
+          <div class="nudge-text-secondary">Savings</div>
+        </div>
+        <div class="stat-card nudge-bg-primary p-3 rounded">
+          <div class="text-4xl font-bold nudge-text-color mb-1">98%</div>
+          <div class="nudge-text-secondary">Satisfaction</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

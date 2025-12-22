@@ -1,0 +1,455 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'tailwindcss';
+@import "primeicons/primeicons.css";
+* {
+  transition-property: background-color, border-color, color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+
+/* ===========================================
+   DEFAULT BLUE THEME
+   =========================================== */
+:root,
+:root.blue-theme {
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-light: #dbeafe;
+  --secondary: #8b5cf6;
+  --secondary-hover: #7c3aed;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f9fafb;
+  --bg-tertiary: #f3f4f6;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #9ca3af;
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
+}
+
+/* Blue Theme - Dark Mode */
+@media (prefers-color-scheme: dark) {
+  :root,
+  :root.blue-theme {
+    --primary: #60a5fa;
+    --primary-hover: #3b82f6;
+    --primary-light: #1e3a8a;
+    --secondary: #a78bfa;
+    --secondary-hover: #8b5cf6;
+    --bg-primary: #0f172a;
+    --bg-secondary: #1e293b;
+    --bg-tertiary: #334155;
+    --text-primary: #f1f5f9;
+    --text-secondary: #cbd5e1;
+    --text-tertiary: #64748b;
+    --border: #334155;
+    --border-light: #475569;
+  }
+}
+
+/* ===========================================
+   PURPLE THEME
+   =========================================== */
+[data-theme="purple"] {
+  --primary: #8b5cf6;
+  --primary-hover: #7c3aed;
+  --primary-light: #ede9fe;
+  --secondary: #ec4899;
+  --secondary-hover: #db2777;
+  --bg-primary: #ffffff;
+  --bg-secondary: #faf5ff;
+  --bg-tertiary: #f5f3ff;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #9ca3af;
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="purple"] {
+    --primary: #a78bfa;
+    --primary-hover: #8b5cf6;
+    --primary-light: #4c1d95;
+    --secondary: #f472b6;
+    --secondary-hover: #ec4899;
+    --bg-primary: #1e1b4b;
+    --bg-secondary: #2e1065;
+    --bg-tertiary: #4c1d95;
+    --text-primary: #f5f3ff;
+    --text-secondary: #ddd6fe;
+    --text-tertiary: #a78bfa;
+    --border: #4c1d95;
+    --border-light: #5b21b6;
+  }
+}
+
+/* ===========================================
+   GREEN THEME
+   =========================================== */
+[data-theme="green"] {
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --primary-light: #d1fae5;
+  --secondary: #14b8a6;
+  --secondary-hover: #0d9488;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f0fdf4;
+  --bg-tertiary: #dcfce7;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #9ca3af;
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="green"] {
+    --primary: #34d399;
+    --primary-hover: #10b981;
+    --primary-light: #064e3b;
+    --secondary: #2dd4bf;
+    --secondary-hover: #14b8a6;
+    --bg-primary: #022c22;
+    --bg-secondary: #064e3b;
+    --bg-tertiary: #065f46;
+    --text-primary: #f0fdf4;
+    --text-secondary: #d1fae5;
+    --text-tertiary: #6ee7b7;
+    --border: #065f46;
+    --border-light: #047857;
+  }
+}
+
+/* ===========================================
+   ORANGE THEME
+   =========================================== */
+[data-theme="orange"] {
+  --primary: #f97316;
+  --primary-hover: #ea580c;
+  --primary-light: #ffedd5;
+  --secondary: #f59e0b;
+  --secondary-hover: #d97706;
+  --bg-primary: #ffffff;
+  --bg-secondary: #fff7ed;
+  --bg-tertiary: #ffedd5;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-tertiary: #9ca3af;
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
+}
+
+@media (prefers-color-scheme: dark) {
+  [data-theme="orange"] {
+    --primary: #fb923c;
+    --primary-hover: #f97316;
+    --primary-light: #7c2d12;
+    --secondary: #fbbf24;
+    --secondary-hover: #f59e0b;
+    --bg-primary: #431407;
+    --bg-secondary: #7c2d12;
+    --bg-tertiary: #9a3412;
+    --text-primary: #fff7ed;
+    --text-secondary: #fed7aa;
+    --text-tertiary: #fdba74;
+    --border: #9a3412;
+    --border-light: #c2410c;
+  }
+}
+
+/* Premium Midnight Blue - Sophisticated & Professional */
+[data-theme="midnight"] {
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-light: #1e3a8a;
+  --secondary: #06b6d4;
+  --secondary-hover: #0891b2;
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --border: #334155;
+  --border-light: #475569;
+}
+
+/* Premium Emerald - Luxury & Growth */
+[data-theme="emerald"] {
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --primary-light: #065f46;
+  --secondary: #34d399;
+  --secondary-hover: #10b981;
+  --bg-primary: #022c22;
+  --bg-secondary: #064e3b;
+  --bg-tertiary: #065f46;
+  --text-primary: #ecfdf5;
+  --text-secondary: #a7f3d0;
+  --text-tertiary: #6ee7b7;
+  --border: #065f46;
+  --border-light: #047857;
+}
+
+/* Premium Royal Purple - Creative & Bold */
+[data-theme="royal"] {
+  --primary: #a855f7;
+  --primary-hover: #9333ea;
+  --primary-light: #581c87;
+  --secondary: #ec4899;
+  --secondary-hover: #db2777;
+  --bg-primary: #1e1b4b;
+  --bg-secondary: #312e81;
+  --bg-tertiary: #4c1d95;
+  --text-primary: #faf5ff;
+  --text-secondary: #e9d5ff;
+  --text-tertiary: #d8b4fe;
+  --border: #4c1d95;
+  --border-light: #6b21a8;
+}
+
+/* Premium Slate - Minimalist & Modern */
+[data-theme="slate"] {
+  --primary: #64748b;
+  --primary-hover: #475569;
+  --primary-light: #1e293b;
+  --secondary: #94a3b8;
+  --secondary-hover: #64748b;
+  --bg-primary: #020617;
+  --bg-secondary: #0f172a;
+  --bg-tertiary: #1e293b;
+  --text-primary: #f8fafc;
+  --text-secondary: #e2e8f0;
+  --text-tertiary: #cbd5e1;
+  --border: #1e293b;
+  --border-light: #334155;
+}
+
+/* Premium Rose Gold - Elegant & Warm */
+[data-theme="rose-gold"] {
+  --primary: #f43f5e;
+  --primary-hover: #e11d48;
+  --primary-light: #881337;
+  --secondary: #fb7185;
+  --secondary-hover: #f43f5e;
+  --bg-primary: #4c0519;
+  --bg-secondary: #881337;
+  --bg-tertiary: #9f1239;
+  --text-primary: #fff1f2;
+  --text-secondary: #fecdd3;
+  --text-tertiary: #fda4af;
+  --border: #9f1239;
+  --border-light: #be123c;
+}
+
+/* Premium Teal - Fresh & Trustworthy */
+[data-theme="teal"] {
+  --primary: #14b8a6;
+  --primary-hover: #0d9488;
+  --primary-light: #115e59;
+  --secondary: #2dd4bf;
+  --secondary-hover: #14b8a6;
+  --bg-primary: #042f2e;
+  --bg-secondary: #134e4a;
+  --bg-tertiary: #115e59;
+  --text-primary: #f0fdfa;
+  --text-secondary: #99f6e4;
+  --text-tertiary: #5eead4;
+  --border: #115e59;
+  --border-light: #0f766e;
+}
+
+/* Premium Crimson - Powerful & Dynamic */
+[data-theme="crimson"] {
+  --primary: #dc2626;
+  --primary-hover: #b91c1c;
+  --primary-light: #7f1d1d;
+  --secondary: #f97316;
+  --secondary-hover: #ea580c;
+  --bg-primary: #450a0a;
+  --bg-secondary: #7f1d1d;
+  --bg-tertiary: #991b1b;
+  --text-primary: #fef2f2;
+  --text-secondary: #fecaca;
+  --text-tertiary: #fca5a5;
+  --border: #991b1b;
+  --border-light: #b91c1c;
+}
+
+/* Premium Gold - Luxury & Prestige */
+[data-theme="gold"] {
+  --primary: #eab308;
+  --primary-hover: #ca8a04;
+  --primary-light: #713f12;
+  --secondary: #fbbf24;
+  --secondary-hover: #f59e0b;
+  --bg-primary: #422006;
+  --bg-secondary: #713f12;
+  --bg-tertiary: #854d0e;
+  --text-primary: #fefce8;
+  --text-secondary: #fef08a;
+  --text-tertiary: #fde047;
+  --border: #854d0e;
+  --border-light: #a16207;
+}
+
+
+/* White Luxe Theme */
+[data-theme="white"] {
+  --primary: #2563eb;          /* Calm blue accent */
+  --primary-hover: #1d4ed8;
+  --primary-light: #e0e7ff;
+
+  --secondary: #64748b;        /* Slate neutral */
+  --secondary-hover: #475569;
+
+  --bg-primary: #ffffff;      /* Main background */
+  --bg-secondary: #f8fafc;    /* Sections / cards */
+  --bg-tertiary: #f1f5f9;     /* Tables / hover */
+
+  --text-primary: #0f172a;    /* Almost black */
+  --text-secondary: #334155;  /* Muted text */
+  --text-tertiary: #64748b;   /* Placeholder */
+
+  --border: #e2e8f0;          /* Soft borders */
+  --border-light: #f1f5f9;
+}
+
+
+
+[data-theme="white-minimal"] {
+  --primary: #111827;
+  --primary-hover: #000000;
+  --primary-light: #f3f4f6;
+
+  --secondary: #6b7280;
+  --secondary-hover: #4b5563;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #fafafa;
+  --bg-tertiary: #f5f5f5;
+
+  --text-primary: #111827;
+  --text-secondary: #6b7280;
+  --text-tertiary: #9ca3af;
+
+  --border: #e5e7eb;
+  --border-light: #f3f4f6;
+}
+
+
+[data-theme="white-warm"] {
+  --primary: #ea580c;
+  --primary-hover: #c2410c;
+  --primary-light: #ffedd5;
+
+  --secondary: #78716c;
+  --secondary-hover: #57534e;
+
+  --bg-primary: #fffdfa;
+  --bg-secondary: #fefce8;
+  --bg-tertiary: #fef3c7;
+
+  --text-primary: #292524;
+  --text-secondary: #57534e;
+  --text-tertiary: #a8a29e;
+
+  --border: #e7e5e4;
+  --border-light: #f5f5f4;
+}
+
+
+
+/* ===========================================
+   NU D G E   THEME CLASSES (DRY & THEME-AWARE)
+   =========================================== */
+
+/* Text Colors */
+.nudge-text-primary   { color: var(--text-primary); }
+.nudge-text-secondary { color: var(--text-secondary); }
+.nudge-text-tertiary  { color: var(--text-tertiary); }
+
+/* Background Colors */
+.nudge-bg-primary     { background-color: var(--bg-primary); }
+.nudge-bg-secondary   { background-color: var(--bg-secondary); }
+.nudge-bg-tertiary    { background-color: var(--bg-tertiary); }
+
+/* Border Colors */
+.nudge-border         { border: 1px solid var(--border); }
+.nudge-border-light   { border: 1px solid var(--border-light); }
+
+/* Primary Colors (for buttons, accents, etc.) */
+.nudge-primary        { background-color: var(--primary); color: var(--text-primary); }
+.nudge-primary-light  { background-color: var(--primary-light); }
+.nudge-primary:hover  { background-color: var(--primary-hover); }
+
+/* Secondary Colors */
+.nudge-secondary      { background-color: var(--secondary); color: var(--text-primary); }
+.nudge-secondary:hover{ background-color: var(--secondary-hover); }
+
+/* Button Utilities */
+.nudge-btn {
+  background-color: var(--primary);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background-color 0.2s ease;
+}
+.nudge-btn:hover {
+  background-color: var(--primary-hover);
+}
+
+.nudge-btn-secondary {
+  background-color: var(--secondary);
+  color: #fff;
+}
+.nudge-btn-secondary:hover {
+  background-color: var(--secondary-hover);
+}
+.nudge-text-color{
+    color: var(--primary);
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+.mat-mdc-table{
+border: 1px solid #ccc !important;
+
+}
+
+
+.mat-mdc-header-row{
+  background-color: var(--primary-light)  !important
+}
+
+.mat-mdc-cell{
+  border-bottom: none !important;
+}
+.mat-mdc-row:nth-child(even) {
+  background-color: var(--bg-secondary)  !important
+
+}
+
+th.mat-mdc-header-cell
+{
+  white-space: nowrap;
+    text-align: left!important;
+    /* font-family: Poppins,Arial; */
+    font-style: normal!important;
+    font-weight: 400;
+    font-size: 14px;
+    text-transform: capitalize;
+    color:#fff !important;
+    ;
+}
+
+
+/* Add smooth transitions for theme changes */
+* {
+  transition-property: background-color, border-color, color;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}

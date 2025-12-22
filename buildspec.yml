@@ -1,0 +1,35 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 22.12
+    commands:
+      - echo Installing Angular CLI and dependencies...
+      - npm install -g @angular/cli@21.0.3
+      - npm ci
+
+  pre_build:
+    commands:
+      - echo Running lint and tests...
+      # Uncomment below if you have lint or tests configured
+      # - npm run lint
+      # - npm test
+      - echo Pre-build phase completed.
+
+  build:
+    commands:
+      - echo Building Angular app for production...
+      - ng build 
+      - echo Build completed.
+
+  post_build:
+    commands:
+      - echo Build phase completed on `date`
+      - echo Packaging build artifacts...
+
+artifacts:
+  files:
+    - '**/*'
+  base-directory: dist/nudge-finance-tracker/browser
+  discard-paths: no

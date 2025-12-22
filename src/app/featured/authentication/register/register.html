@@ -1,0 +1,159 @@
+<div class="min-h-screen nudge-bg-secondary flex items-center justify-center p-6">
+  <div class="w-full max-w-6xl grid lg:grid-cols-2 gap-8 items-center">
+    <!-- Left Side - Features -->
+    <div
+      class="nudge-bg-primary rounded-2xl shadow-xl p-8 lg:p-12 transform transition-all duration-700 hover:scale-[1.02]"
+    >
+      <h2 class="text-3xl lg:text-4xl font-bold nudge-text-primary mb-4">
+        Start your financial journey
+      </h2>
+      <p class="nudge-text-secondary mb-8 text-lg">
+        Join thousands of users who have transformed their relationship with money using FinTrack.
+      </p>
+
+      <div class="space-y-4">
+        <div
+          *ngFor="let feature of features; let i = index"
+          class="flex items-start gap-4 p-4 rounded-xl transition-all duration-300 hover:nudge-bg-secondary hover:translate-x-2"
+        >
+          <div
+            class="flex-shrink-0 w-8 h-8 nudge-primary rounded-full flex items-center justify-center shadow-lg"
+          >
+            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2.5"
+                d="M5 13l4 4L19 7"
+              ></path>
+            </svg>
+          </div>
+          <span class="nudge-text-primary font-medium text-lg">{{ feature }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Side - Form -->
+    <div
+      class="nudge-bg-primary rounded-2xl shadow-xl p-8 lg:p-12 transform transition-all duration-700"
+    >
+      <!-- Logo -->
+      <div class="flex items-center gap-3 mb-8">
+        <div class="w-12 h-12 nudge-primary rounded-xl flex items-center justify-center shadow-lg">
+          <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+            ></path>
+          </svg>
+        </div>
+        <span class="text-2xl font-bold nudge-text-color">FinTrack</span>
+      </div>
+
+      <h1 class="text-3xl font-bold nudge-text-primary mb-2">Create account</h1>
+      <p class="nudge-text-secondary mb-8">Get started with your free account today</p>
+
+      <form [formGroup]="registerForm" class="space-y-6">
+        <!-- Full Name -->
+        <div class="transform transition-all duration-300 ">
+          <label class="block text-sm font-semibold nudge-text-primary mb-2">Full Name</label>
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-user"></i>
+            </p-inputgroup-addon>
+            <input pInputText placeholder="Username" formControlName="name" />
+          </p-inputgroup>
+        </div>
+
+        <!-- Email -->
+        <div class="transform transition-all duration-300 ">
+          <label class="block text-sm font-semibold nudge-text-primary mb-2">Email</label>
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-envelope"></i>
+            </p-inputgroup-addon>
+            <input pInputText placeholder="Email" formControlName="email" />
+          </p-inputgroup>
+        </div>
+
+        <!-- Password -->
+        <div class="transform transition-all duration-300 ">
+          <label class="block text-sm font-semibold nudge-text-primary mb-2">Password</label>
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-lock"></i>
+            </p-inputgroup-addon>
+           <p-password  [toggleMask]="true" formControlName="password" placeholder="Password" onchange="validatePassword()" />
+          </p-inputgroup>
+
+          <!-- Password Requirements -->
+          <div class="mt-3 space-y-2 text-sm" 
+                   
+                   *ngIf="registerForm.value.password">
+                <div class="flex items-center gap-2 transition-all duration-300"
+                     [class]="passwordValidation.minLength ? 'text-green-600' : 'nudge-text-tertiary'">
+                  <svg class="w-4 h-4 transition-transform duration-300" 
+                      
+                       fill="currentColor" viewBox="0 0 20 20">
+                    <path *ngIf="passwordValidation.minLength" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                    <circle *ngIf="!passwordValidation.minLength" cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
+                  </svg>
+                  <span>At least 8 characters</span>
+                </div>
+                <div class="flex items-center gap-2 transition-all duration-300"
+                     [class]="passwordValidation.hasUppercase ? 'text-green-600' : 'nudge-text-tertiary'">
+                  <svg class="w-4 h-4 transition-transform duration-300"
+                      
+                       fill="currentColor" viewBox="0 0 20 20">
+                    <path *ngIf="passwordValidation.hasUppercase" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                    <circle *ngIf="!passwordValidation.hasUppercase" cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
+                  </svg>
+                  <span>Contains uppercase letter</span>
+                </div>
+                <div class="flex items-center gap-2 transition-all duration-300"
+                     [class]="passwordValidation.hasLowercase ? 'text-green-600' : 'nudge-text-tertiary'">
+                  <svg class="w-4 h-4 transition-transform duration-300"
+                       [class.scale-110]="passwordValidation.hasLowercase"
+                       fill="currentColor" viewBox="0 0 20 20">
+                    <path *ngIf="passwordValidation.hasLowercase" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                    <circle *ngIf="!passwordValidation.hasLowercase" cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
+                  </svg>
+                  <span>Contains lowercase letter</span>
+                </div>
+                <div class="flex items-center gap-2 transition-all duration-300"
+                     [class]="passwordValidation.hasNumber ? 'text-green-600' : 'nudge-text-tertiary'">
+                  <svg class="w-4 h-4 transition-transform duration-300"
+                       [class.scale-110]="passwordValidation.hasNumber"
+                       fill="currentColor" viewBox="0 0 20 20">
+                    <path *ngIf="passwordValidation.hasNumber" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
+                    <circle *ngIf="!passwordValidation.hasNumber" cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
+                  </svg>
+                  <span>Contains a number</span>
+                </div>
+              </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button
+          type="submit"
+          class="w-full nudge-btn font-semibold py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+        >
+          Create account
+        </button>
+
+        <!-- Sign In Link -->
+        <p class="text-center nudge-text-secondary">
+          Already have an account?
+          <a
+            routerLink="/login"
+            class="nudge-text-color cursor-pointer font-semibold hover:underline transition-all duration-200"
+          >
+            Sign in
+          </a>
+        </p>
+      </form>
+    </div>
+  </div>
+</div>
