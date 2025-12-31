@@ -29,9 +29,9 @@
           </label>
    <p-inputgroup>
     <p-inputgroup-addon>
-        <i class="pi pi-user"></i>
+        <i class="pi pi-envelope"></i>
     </p-inputgroup-addon>
-    <input pInputText  placeholder="Username" />
+    <input pInputText formControlName="username_or_email"  placeholder="Username or Email" />
 </p-inputgroup>
         </div>
 
@@ -53,12 +53,12 @@
     <p-inputgroup-addon>
         <i class="pi pi-key"></i>
     </p-inputgroup-addon>
-  <p-password  [toggleMask]="true" placeholder="Password" />
+  <p-password  [toggleMask]="true" formControlName="password" placeholder="Password" />
 </p-inputgroup>
         </div>
 
         <!-- Sign In Button -->
-        <button  class="nudge-btn" type="button">
+        <button  class="nudge-btn rounded-xl p-2.5 font-medium transition-all border-r-4" type="button" (click)="login()"  >
           Sign in
         </button>
 
@@ -110,3 +110,6 @@
     </div>
   </div>
 </div>
+@if (loaderService.loading$ |async) {
+  <app-loader/>
+}

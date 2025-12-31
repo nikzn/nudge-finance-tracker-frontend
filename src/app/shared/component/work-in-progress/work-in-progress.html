@@ -1,0 +1,122 @@
+<div class="min-h-screen nudge-bg-primary flex items-center justify-center relative overflow-hidden px-4">
+  <!-- Diagonal stripes background pattern -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute inset-0" 
+         style="background: repeating-linear-gradient(
+           45deg,
+           transparent,
+           transparent 10px,
+           rgba(255, 255, 255, 0.1) 10px,
+           rgba(255, 255, 255, 0.1) 20px
+         )">
+    </div>
+  </div>
+
+  <div class="text-center z-10 max-w-3xl w-full">
+    <!-- Under Construction Badge -->
+    <div class="mb-8 flex justify-center">
+      <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full"
+           style="background-color: rgba(255, 107, 0, 0.1); border: 1px solid #ff6b00;">
+        <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+        <span class="text-orange-500 font-medium tracking-wider text-sm uppercase">
+          Under Construction
+        </span>
+      </div>
+    </div>
+
+    <!-- Construction Icons -->
+    <div class="mb-12 flex justify-center items-center gap-6">
+      <!-- Left Wrench -->
+      <div class="animate-swing-left">
+        <svg class="w-16 h-16 md:w-20 md:h-20" 
+             style="color: #ff6b00;" 
+             fill="none" 
+             stroke="currentColor" 
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" 
+                stroke-linejoin="round" 
+                stroke-width="2" 
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+          <path stroke-linecap="round" 
+                stroke-linejoin="round" 
+                stroke-width="2" 
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+      </div>
+
+      <!-- Center Hard Hat -->
+      <div class="animate-bounce-slow">
+        <svg class="w-20 h-20 md:w-24 md:h-24 nudge-text-secondary" 
+             fill="currentColor" 
+             viewBox="0 0 24 24">
+          <path d="M12 2C10.9 2 10 2.9 10 4V6H8C7.45 6 7 6.45 7 7V9C5.34 9 4 10.34 4 12V14C4 14.55 4.45 15 5 15H19C19.55 15 20 14.55 20 14V12C20 10.34 18.66 9 17 9V7C17 6.45 16.55 6 16 6H14V4C14 2.9 13.1 2 12 2M12 4C12 4 12 4 12 4V6H12V4M9 8H15V9H9V8M5 16C4.45 16 4 16.45 4 17V20C4 21.1 4.9 22 6 22H18C19.1 22 20 21.1 20 20V17C20 16.45 19.55 16 19 16H5Z"/>
+        </svg>
+      </div>
+
+      <!-- Right Wrench -->
+      <div class="animate-swing-right">
+        <svg class="w-16 h-16 md:w-20 md:h-20" 
+             style="color: #ff6b00;" 
+             fill="none" 
+             stroke="currentColor" 
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" 
+                stroke-linejoin="round" 
+                stroke-width="2" 
+                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+          <path stroke-linecap="round" 
+                stroke-linejoin="round" 
+                stroke-width="2" 
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Main Heading -->
+    <h1 class="text-5xl md:text-7xl font-bold mb-4">
+      <span class="nudge-text-secondary">WORK IN</span>
+      <br>
+      <span class="text-orange-500">PROGRESS</span>
+    </h1>
+
+    <!-- Progress Bar -->
+    <div class="mb-8 max-w-xl mx-auto">
+      <div class="flex items-center justify-between mb-2">
+        <p class="nudge-text-tertiary text-sm">Building something awesome...</p>
+        <span class="text-orange-500 font-bold text-lg">{{ progress }}%</span>
+      </div>
+      <div class="w-full h-3 nudge-bg-secondary rounded-full overflow-hidden"
+           style="border: 1px solid var(--border);">
+        <div class="h-full bg-orange-500 transition-all duration-300 ease-out rounded-full"
+             [style.width.%]="progress"
+             style="box-shadow: 0 0 10px rgba(255, 107, 0, 0.5);">
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <p class="nudge-text-tertiary text-base md:text-lg mb-6 max-w-lg mx-auto leading-relaxed">
+      We're crafting something special for you. Check back soon!
+    </p>
+
+    <!-- Estimated Completion -->
+    <div class="mb-10 flex items-center justify-center gap-2 nudge-text-tertiary">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" stroke-width="2"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6l4 2"/>
+      </svg>
+      <span class="text-sm">Estimated completion: Coming Soon</span>
+    </div>
+
+    <!-- Back to Home Button -->
+    <button
+      (click)="navigateHome()"
+      class="inline-flex items-center gap-3 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-lg transition-all transform hover:scale-105 shadow-lg hover:shadow-xl"
+      style="border: 2px solid #ff6b00;">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+      </svg>
+      <span>Back to Home</span>
+    </button>
+  </div>
+</div>

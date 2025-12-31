@@ -10,7 +10,7 @@
         
         <div class="flex items-center gap-4">
 
-            <p-select [options]="themeList" [(ngModel)]="selectedTheme" [checkmark]="true" optionLabel="label" optionValue="value" (ngModelChange)="onThemeChange()"   placeholder="Select a Theme"  class="w-full md:w-56" />
+            <p-select [options]="availableThemes" [(ngModel)]="currentTheme" [checkmark]="true" optionLabel="label" optionValue="value" (ngModelChange)="onThemeChange()"   placeholder="Select a Theme"  class="w-full md:w-56" />
 
       
           <button routerLink="/login" class="px-4 cursor-pointer py-2 rounded-lg nudge-text-primary hover:nudge-bg-secondary transition-colors">

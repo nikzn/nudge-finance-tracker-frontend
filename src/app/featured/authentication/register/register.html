@@ -17,7 +17,7 @@
           class="flex items-start gap-4 p-4 rounded-xl transition-all duration-300 hover:nudge-bg-secondary hover:translate-x-2"
         >
           <div
-            class="flex-shrink-0 w-8 h-8 nudge-primary rounded-full flex items-center justify-center shadow-lg"
+            class="shrink-0 w-8 h-8 nudge-primary rounded-full flex items-center justify-center shadow-lg"
           >
             <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path
@@ -55,20 +55,41 @@
       <h1 class="text-3xl font-bold nudge-text-primary mb-2">Create account</h1>
       <p class="nudge-text-secondary mb-8">Get started with your free account today</p>
 
-      <form [formGroup]="registerForm" class="space-y-6">
+      <form [formGroup]="registerForm" (submit)="onSubmit()" class="space-y-6">
         <!-- Full Name -->
-        <div class="transform transition-all duration-300 ">
+        <div class="transform transition-all duration-300">
           <label class="block text-sm font-semibold nudge-text-primary mb-2">Full Name</label>
           <p-inputgroup>
             <p-inputgroup-addon>
               <i class="pi pi-user"></i>
             </p-inputgroup-addon>
-            <input pInputText placeholder="Username" formControlName="name" />
+            <input pInputText placeholder="Username" formControlName="username" />
           </p-inputgroup>
+          @if (name?.errors?.['required'] &&name?.dirty) {
+          <small class="text-red-800">username required</small>
+          } @if (name?.errors?.['whiteSpace'] &&name?.dirty) {
+          <small class="text-red-800">Whitespace only is not allowed </small>
+          } @if (name?.errors?.['usernameTaken']) {
+          <small class="text-red-800">Username Taken </small>
+          }
+        </div>
+        <!-- Full Name -->
+        <div class="transform transition-all duration-300">
+          <label class="block text-sm font-semibold nudge-text-primary mb-2">Full Name</label>
+          <p-inputgroup>
+            <p-inputgroup-addon>
+              <i class="pi pi-user"></i>
+            </p-inputgroup-addon>
+            <input pInputText placeholder="Full Name" formControlName="full_name" />
+          </p-inputgroup>
+
+          @if (fullName?.errors&& fullName?.dirty) {
+          <small class="text-red-800">Full Name required</small>
+          }
         </div>
 
         <!-- Email -->
-        <div class="transform transition-all duration-300 ">
+        <div class="transform transition-all duration-300">
           <label class="block text-sm font-semibold nudge-text-primary mb-2">Email</label>
           <p-inputgroup>
             <p-inputgroup-addon>
@@ -76,63 +97,170 @@
             </p-inputgroup-addon>
             <input pInputText placeholder="Email" formControlName="email" />
           </p-inputgroup>
+
+          @if (email?.errors&& email?.dirty) {
+          <small class="text-red-800">Email required</small>
+          }
         </div>
 
         <!-- Password -->
-        <div class="transform transition-all duration-300 ">
+        <div class="transform transition-all duration-300">
           <label class="block text-sm font-semibold nudge-text-primary mb-2">Password</label>
           <p-inputgroup>
             <p-inputgroup-addon>
               <i class="pi pi-lock"></i>
             </p-inputgroup-addon>
-           <p-password  [toggleMask]="true" formControlName="password" placeholder="Password" onchange="validatePassword()" />
+            <p-password [toggleMask]="true" formControlName="password" placeholder="Password" />
           </p-inputgroup>
 
           <!-- Password Requirements -->
-          <div class="mt-3 space-y-2 text-sm" 
-                   
-                   *ngIf="registerForm.value.password">
-                <div class="flex items-center gap-2 transition-all duration-300"
-                     [class]="passwordValidation.minLength ? 'text-green-600' : 'nudge-text-tertiary'">
-                  <svg class="w-4 h-4 transition-transform duration-300" 
-                      
-                       fill="currentColor" viewBox="0 0 20 20">
-                    <path *ngIf="passwordValidation.minLength" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
-                    <circle *ngIf="!passwordValidation.minLength" cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
-                  </svg>
-                  <span>At least 8 characters</span>
-                </div>
-                <div class="flex items-center gap-2 transition-all duration-300"
-                     [class]="passwordValidation.hasUppercase ? 'text-green-600' : 'nudge-text-tertiary'">
-                  <svg class="w-4 h-4 transition-transform duration-300"
-                      
-                       fill="currentColor" viewBox="0 0 20 20">
-                    <path *ngIf="passwordValidation.hasUppercase" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
-                    <circle *ngIf="!passwordValidation.hasUppercase" cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
-                  </svg>
-                  <span>Contains uppercase letter</span>
-                </div>
-                <div class="flex items-center gap-2 transition-all duration-300"
-                     [class]="passwordValidation.hasLowercase ? 'text-green-600' : 'nudge-text-tertiary'">
-                  <svg class="w-4 h-4 transition-transform duration-300"
-                       [class.scale-110]="passwordValidation.hasLowercase"
-                       fill="currentColor" viewBox="0 0 20 20">
-                    <path *ngIf="passwordValidation.hasLowercase" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
-                    <circle *ngIf="!passwordValidation.hasLowercase" cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
-                  </svg>
-                  <span>Contains lowercase letter</span>
-                </div>
-                <div class="flex items-center gap-2 transition-all duration-300"
-                     [class]="passwordValidation.hasNumber ? 'text-green-600' : 'nudge-text-tertiary'">
-                  <svg class="w-4 h-4 transition-transform duration-300"
-                       [class.scale-110]="passwordValidation.hasNumber"
-                       fill="currentColor" viewBox="0 0 20 20">
-                    <path *ngIf="passwordValidation.hasNumber" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"></path>
-                    <circle *ngIf="!passwordValidation.hasNumber" cx="10" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="2"></circle>
-                  </svg>
-                  <span>Contains a number</span>
-                </div>
-              </div>
+          @if (password?.errors&&password?.dirty) {
+          <div class="mt-3 space-y-2 text-sm">
+            <div
+              class="flex items-center gap-2 transition-all duration-300"
+              [class]="!password?.errors?.['minLength'] ? 'text-green-600' : 'nudge-text-tertiary'"
+            >
+              <svg
+                class="w-4 h-4 transition-transform duration-300"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                @if (!password?.errors?.['minLength']&&password?.dirty) {
+                <path
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                ></path>
+
+                }@else {
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                ></circle>
+
+                }
+              </svg>
+              <span>At least 8 characters</span>
+            </div>
+            <div
+              class="flex items-center gap-2 transition-all duration-300"
+              [class]="!password?.errors?.['hasUppercase'] ? 'text-green-600' : 'nudge-text-tertiary'"
+            >
+              <svg
+                class="w-4 h-4 transition-transform duration-300"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                @if (!password?.errors?.['hasUppercase']) {
+                <path
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                ></path>
+
+                } @else {
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                ></circle>
+
+                }
+              </svg>
+              <span>Contains uppercase letter</span>
+            </div>
+            <div
+              class="flex items-center gap-2 transition-all duration-300"
+              [class]="!password?.errors?.['hasLowercase'] ? 'text-green-600' : 'nudge-text-tertiary'"
+            >
+              <svg
+                class="w-4 h-4 transition-transform duration-300"
+                [class.scale-110]="password?.errors?.['hasLowercase']"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                @if (!password?.errors?.['hasLowercase']) {
+                <path
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                ></path>
+
+                }@else{
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                ></circle>
+
+                }
+              </svg>
+              <span>Contains lowercase letter</span>
+            </div>
+            <div
+              class="flex items-center gap-2 transition-all duration-300"
+              [class]="!password?.errors?.['hasNumber'] ? 'text-green-600' : 'nudge-text-tertiary'"
+            >
+              <svg
+                class="w-4 h-4 transition-transform duration-300"
+                [class.scale-110]="password?.errors?.['hasNumber']"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                @if (!password?.errors?.['hasNumber']) {
+                <path
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                ></path>
+
+                }@else {
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                ></circle>
+
+                }
+              </svg>
+              <span>Contains a number</span>
+            </div>
+            <div
+              class="flex items-center gap-2 transition-all duration-300"
+              [class]="!password?.errors?.['hasSpace'] ? 'text-green-600' : 'nudge-text-tertiary'"
+            >
+              <svg
+                class="w-4 h-4 transition-transform duration-300"
+                [class.scale-110]="password?.errors?.['hasSpace']"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                @if (!password?.errors?.['hasSpace']) {
+                <path
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                ></path>
+
+                }@else {
+                <circle
+                  cx="10"
+                  cy="10"
+                  r="8"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                ></circle>
+
+                }
+              </svg>
+              <span>should not contains space</span>
+            </div>
+          </div>
+          }
         </div>
 
         <!-- Submit Button -->
@@ -157,3 +285,6 @@
     </div>
   </div>
 </div>
+@if (loaderService.loading$|async) {
+<app-loader/>
+}

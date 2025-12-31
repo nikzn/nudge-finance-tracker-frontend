@@ -1,0 +1,110 @@
+<div class="flex h-screen nudge-bg-secondary">
+  <!-- Sidebar -->
+  <div
+    [ngClass]="{
+      'w-80': isExpanded,
+      'w-20': !isExpanded
+    }"
+    class="nudge-bg-primary shadow-lg transition-all duration-300 ease-in-out flex flex-col "
+  >
+    <!-- Header -->
+    <div class="p-4 flex items-center justify-between  ">
+      <div
+        [ngClass]="{
+          'justify-center w-full': !isExpanded
+        }"
+        class="flex items-center space-x-3"
+      >
+        <div
+          class="w-12 h-12 rounded-xl flex items-center justify-center nudge-primary"
+        >
+          <svg
+            class="w-6 h-6 text-white"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"
+            />
+          </svg>
+        </div>
+
+        <span
+          *ngIf="isExpanded"
+          class="text-xl font-bold nudge-text-primary"
+        >
+          FinTrack
+        </span>
+      </div>
+  @if (isExpanded) {
+  <button
+        
+        (click)="toggleSidebar()"
+        class="p-1 rounded-lg transition-colors hover:nudge-bg-tertiary hover:cursor-pointer hover:scale-110 "
+      >
+        <i class="pi pi-angle-left" style="font-size: 2rem;"></i>
+      </button>
+      }
+
+   
+    </div>
+
+    <!-- Expand button when collapsed -->
+@if(!isExpanded) {
+    <button
+    
+      (click)="toggleSidebar()"
+      class="mx-auto mt-4 p-2 rounded-lg transition-colors hover:nudge-bg-tertiary hover:cursor-pointer hover:scale-110 "
+    >
+          <i class="pi pi-angle-right" style="font-size: 2rem;"></i>
+    </button>
+      }
+
+    <!-- Menu Items -->
+    <nav class="flex-1 p-4 space-y-2">
+      @for (item of menuItems; track $index) {
+<button
+        
+        (click)="setActiveItem(item.label)"
+        [ngClass]="{
+          'nudge-primary shadow-md': activeItem === item.label,
+          'hover:nudge-bg-tertiary nudge-text-secondary': activeItem !== item.label,
+          'justify-center': !isExpanded
+        }"
+        class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:nudge-primary hover:nudge-text-secondary cursor-pointer"
+      >
+        <span
+          class="w-5 h-5 flex-shrink-0"
+          [ngClass]="[
+            item.icon,
+            activeItem === item.label ? 'text-white' : 'nudge-text-tertiary'
+          ]"
+        ></span>
+        @if (isExpanded) {
+    <span
+          
+          class="font-medium text-base"
+          [ngClass]="activeItem === item.label ? 'text-white' : 'nudge-text-primary'"
+        >
+          {{ item.label }}
+        </span>
+        }
+    
+      </button>
+      }
+      
+    </nav>
+
+    <!-- User Profile -->
+    <app-avatar [isExpanded]="isExpanded"></app-avatar>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="flex-1 nudge-bg-secondary nudge-text-primary">
+    <router-outlet></router-outlet>
+  </div>
+</div>
