@@ -381,7 +381,7 @@
 .nudge-border-light   { border: 1px solid var(--border-light); }
 
 /* Primary Colors (for buttons, accents, etc.) */
-.nudge-primary        { background-color: var(--primary); color: var(--text-primary); }
+.nudge-primary        { background-color: var(--primary);  }
 .nudge-primary-light  { background-color: var(--primary-light); }
 .nudge-primary:hover  { background-color: var(--primary-hover); }
 

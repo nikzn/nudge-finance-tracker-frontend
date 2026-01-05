@@ -1,33 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-work-in-progress',
-  imports: [],
   templateUrl: './work-in-progress.html',
   styleUrl: './work-in-progress.css',
 })
 export class WorkInProgress {
-  progress: number = 0;
+  progress = 0;
   private intervalId: any;
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
-    // Simulate progress animation
-    this.intervalId = setInterval(() => {
-      if (this.progress < 73) {
-        this.progress += 1;
-      } else {
-        clearInterval(this.intervalId);
-      }
-    }, 30);
+    this.ngZone.runOutsideAngular(() => {
+      this.intervalId = setInterval(() => {
+        if (this.progress < 73) {
+          this.progress += 1;
+        } else {
+          clearInterval(this.intervalId);
+        }
+      }, 30);
+    });
   }
 
   ngOnDestroy(): void {
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-    }
+    clearInterval(this.intervalId);
   }
 
   navigateHome(): void {

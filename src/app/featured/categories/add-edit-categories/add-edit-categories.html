@@ -1,0 +1,119 @@
+<div class="nudge-bg-primary rounded-lg shadow-xl w-full max-w-md max-h-[90vh] flex flex-col">
+  
+  <!-- HEADER -->
+  <header class="sticky top-0 z-10 p-4 border-b bg-inherit">
+    <h2 class="text-2xl font-semibold nudge-text-primary m-0">
+      Add Category
+    </h2>
+    <p class="nudge-text-secondary mt-1 text-sm">
+      Create a new category for your transactions.
+    </p>
+  </header>
+
+  <!-- SCROLLABLE CONTENT -->
+  <div class="flex-1 overflow-y-auto px-4 py-4">
+    <div class="flex flex-col gap-6" [formGroup]="categoriesForm" >
+      
+      <!-- Name Input -->
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-medium nudge-text-primary">Name</label>
+        <input
+          pInputText
+          formControlName="name"
+          placeholder="e.g., Food, Transport"
+          class="w-full p-3 rounded-lg nudge-border focus:ring-2 focus:ring-blue-500"
+        />
+        
+      </div>
+
+      <!-- Description -->
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-medium nudge-text-primary">Description</label>
+        <textarea
+          pInputTextarea
+          formControlName="description"
+          rows="1"
+          class="w-full p-3 rounded-lg nudge-border focus:ring-2 focus:ring-blue-500 resize-none"
+        ></textarea>
+      </div>
+
+      <!-- Transaction Type -->
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-medium nudge-text-primary">
+          Transaction Type
+        </label>
+        <div class="flex gap-3">
+          <button
+            (click)="selectTransactionType('EXPENSE')"
+            class="flex-1 py-3 rounded-lg font-medium"
+            [ngClass]="transactionType === 'EXPENSE'
+              ? 'bg-red-500 text-white'
+              : 'nudge-bg-secondary nudge-text-secondary'">
+            Expense
+          </button>
+
+          <button
+            (click)="selectTransactionType('INCOME')"
+            class="flex-1 py-3 rounded-lg font-medium"
+            [ngClass]="transactionType === 'INCOME'
+              ? 'bg-green-500 text-white'
+              : 'nudge-bg-secondary nudge-text-secondary'">
+            Income
+          </button>
+        </div>
+      </div>
+
+      <!-- Color Selection -->
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-medium nudge-text-primary">Color</label>
+        <div class="flex gap-2 flex-wrap">
+          <button
+            *ngFor="let color of colors"
+            (click)="selectColor(color.value)"
+            [style.background-color]="color.value"
+            class="w-12 h-12 rounded-xl hover:scale-110 transition"
+            [class.ring-2]="selectedColor === color.value"
+            [class.ring-offset-2]="selectedColor === color.value">
+          </button>
+        </div>
+      </div>
+
+      <!-- Icon Selection -->
+      <div class="flex flex-col gap-2">
+        <label class="text-sm font-medium nudge-text-primary">Icon</label>
+        <div class="flex gap-2 flex-wrap">
+          <button
+            *ngFor="let iconItem of icons"
+            (click)="selectIcon(iconItem.icon)"
+            class="w-12 h-12 rounded-xl flex items-center justify-center nudge-bg-secondary"
+            [ngClass]="{
+              'nudge-primary text-white': selectedIcon === iconItem.icon,
+              'nudge-text-secondary': selectedIcon !== iconItem.icon
+            }">
+            <i [class]="iconItem.icon" class="text-xl"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="sticky bottom-0 z-10 p-4 border-t bg-inherit">
+    <div class="flex justify-end gap-3">
+      <button
+        
+ 
+        (click)="onCancel()"
+        class="px-6 py-2 rounded-lg nudge-text-secondary">
+Cancel
+      </button>
+      <button
+        (click)="id?onUpdate():onCreate()"
+        class="px-6 py-2 rounded-lg nudge-btn text-white">
+        {{id?'Update':'Save'}}
+      </button>
+    </div>
+  </footer>
+
+</div>

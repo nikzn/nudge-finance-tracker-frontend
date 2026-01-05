@@ -35,7 +35,7 @@
 
             <!-- Stats -->
             <div class="grid grid-cols-4 gap-6 pt-8">
-              <div *ngFor="let stat of stats">
+              <div *ngFor="let stat of stats()">
                 <div class="text-3xl font-bold nudge-text-color">{{stat.value}}</div>
                 <div class="text-sm nudge-text-tertiary mt-1">{{stat.label}}</div>
               </div>

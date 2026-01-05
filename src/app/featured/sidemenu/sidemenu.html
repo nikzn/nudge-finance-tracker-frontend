@@ -1,4 +1,4 @@
-<div class="flex h-screen nudge-bg-secondary">
+<div class="flex h-screen nudge-bg-secondary overflow-hidden">
   <!-- Sidebar -->
   <div
     [ngClass]="{
@@ -69,7 +69,7 @@
       @for (item of menuItems; track $index) {
 <button
         
-        (click)="setActiveItem(item.label)"
+        (click)="setActiveItem(item)"
         [ngClass]="{
           'nudge-primary shadow-md': activeItem === item.label,
           'hover:nudge-bg-tertiary nudge-text-secondary': activeItem !== item.label,
@@ -98,13 +98,16 @@
       }
       
     </nav>
+    
+   
 
     <!-- User Profile -->
     <app-avatar [isExpanded]="isExpanded"></app-avatar>
   </div>
 
   <!-- Main Content Area -->
-  <div class="flex-1 nudge-bg-secondary nudge-text-primary">
+  <div class="flex-1 nudge-bg-secondary nudge-text-primary overflow-auto">
+
     <router-outlet></router-outlet>
   </div>
 </div>

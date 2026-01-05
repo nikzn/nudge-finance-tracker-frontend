@@ -1,0 +1,52 @@
+ <header class="flex items-center justify-between px-6 py-4 sticky top-0 z-30 backdrop-blur-xl">
+    
+        
+          <div>
+            <h1 class="text-3xl font-bold nudge-text-primary">{{ config.title }}</h1>
+            <p *ngIf="config.subtitle" class="nudge-text-secondary mt-1">{{ config.subtitle }}</p>
+          </div>
+          
+          <div class="flex items-center gap-4">
+            <!-- Search Input -->
+            <!-- <div *ngIf="config.searchConfig?.enabled" class="relative">
+              <input
+                type="text"
+                [placeholder]="config.searchConfig?.placeholder || 'Search...'"
+                class="w-80 px-4 py-2.5 nudge-bg-secondary nudge-border rounded-lg nudge-text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                [(ngModel)]="searchValue"
+                (ngModelChange)="onSearchChange($event)"
+              />
+              <svg class="absolute right-3 top-3 w-5 h-5 nudge-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </div> -->
+            
+            <!-- Dynamic Action Buttons -->
+            <ng-container *ngFor="let action of config.actions">
+              <!-- Notification Button -->
+                <p-select [options]="availableThemes" [(ngModel)]="currentTheme" [checkmark]="true" optionLabel="label" optionValue="value" (ngModelChange)="onThemeChange()"   placeholder="Select a Theme"  class="w-full md:w-56" />
+
+              <!-- Primary Button -->
+              <button 
+                *ngIf="action.type === 'primary'"
+                (click)="action.onClick && action.onClick()"
+                class="nudge-btn px-6 py-2.5 rounded-lg font-semibold cursor-pointer flex items-center gap-2 transition-colors">
+                <span *ngIf="action.icon" [class]="action.icon" ></span>
+                {{ action.label }}
+              </button>
+
+              <!-- Secondary Button -->
+              <button 
+                *ngIf="action.type === 'secondary'"
+                (click)="action.onClick && action.onClick()"
+                class="nudge-btn-secondary px-6 py-2.5 rounded-lg font-semibold flex items-center gap-2 transition-colors">
+                <span *ngIf="action.icon" [innerHTML]="getIconSvg(action.icon)"></span>
+                {{ action.label }}
+              </button>
+            </ng-container>
+          </div>
+       
+     
+
+
+</header>

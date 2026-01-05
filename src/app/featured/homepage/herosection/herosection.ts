@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { RouterLink } from "@angular/router";
 interface Feature{
   icon:string,
@@ -14,17 +14,16 @@ interface Feature{
   styleUrl: './herosection.css',
 })
 export class Herosection {
- stats = [
+ stats  =signal<any>( [
     { value: '50K+', label: 'Active Users' },
     { value: '$2M+', label: 'Tracked' },
     { value: '30%', label: 'Avg. Savings' },
     { value: '98%', label: 'Satisfaction' }
-  ];
+  ])
 
   chartHeights = [50, 70, 60, 85, 75, 90, 100];
- headerVisible = false;
   cardsVisible: boolean[] = [false, false, false, false];
-  ctaVisible = false;
+
 
   features: Feature[] = [
     {
@@ -53,16 +52,6 @@ export class Herosection {
     }
   ];
 
-  ngOnInit() {
-    // Trigger animations on load
-    setTimeout(() => {
-      this.headerVisible = true;
-    }, 100);
-
-    setTimeout(() => {
-      this.cardsVisible = [true, true, true, true];
-    }, 300);
-  }
 
 
 }
