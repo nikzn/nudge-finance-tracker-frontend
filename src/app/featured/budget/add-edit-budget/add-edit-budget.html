@@ -1,0 +1,48 @@
+      <div class="nudge-bg-primary rounded-2xl shadow-lg w-full max-w-xl p-8 relative">
+        <!-- Close Button -->
+        <button 
+          class="absolute top-6 right-6 nudge-text-tertiary hover:nudge-text-secondary transition-colors"
+          (click)="onClose()">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- Title -->
+        <h2 class="text-2xl font-bold nudge-text-primary mb-8">Add New Budget</h2>
+
+        <form [formGroup]="budgetForm" >
+        <!-- Category Dropdown -->
+        <div class="mb-6">
+          <label class="block nudge-text-primary font-medium mb-3">Category</label>
+       <p-select [options]="categoriesList()" formControlName="category"  [checkmark]="true" optionLabel="name" optionValue="id"  placeholder="Select Categories" class="w-full md:w-100 " />
+
+        </div>
+
+        <!-- Monthly Limit Input -->
+        <div class="mb-8">
+          <label class="block nudge-text-primary font-medium mb-3">Monthly Limit</label>
+          <div class="relative">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 nudge-text-tertiary text-lg">$</span>
+            <input
+              type="number"
+            formControlName ="amount"
+              placeholder="0.00"
+              step="1"
+              class="w-full pl-10 pr-4 py-4 nudge-border rounded-xl nudge-bg-primary nudge-text-primary placeholder-opacity-50 focus:outline-none focus:ring-2 focus:ring-offset-2"
+              [style.--tw-ring-color]="'var(--primary)'"
+            />
+          </div>
+        </div>
+
+        <!-- Add Budget Button -->
+        <button
+            (click)="onsubmit()"
+          type="button"
+          class="w-full nudge-btn text-white font-semibold py-4 rounded-xl transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2"
+          [style.--tw-ring-color]="'var(--primary)'"
+          >
+          Add Budget
+        </button>
+        </form>
+      </div>

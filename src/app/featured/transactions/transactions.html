@@ -6,19 +6,19 @@
           <!-- Total Transactions -->
           <div class="nudge-bg-primary rounded-2xl p-6 nudge-border">
             <p class="nudge-text-secondary text-sm mb-2">Total Transactions</p>
-            <p class="text-4xl font-bold nudge-text-primary">{{ totalCount }}</p>
+            <p class="text-4xl font-bold nudge-text-primary">{{ totalCount() }}</p>
           </div>
           
           <!-- Total Income -->
           <div class="nudge-bg-primary rounded-2xl p-6 border-l-4 border-green-500">
             <p class="text-green-600 text-sm mb-2">Total Income</p>
-            <p class="text-4xl font-bold text-green-600">+\${{ totalIncome.toFixed(2) }}</p>
+            <p class="text-4xl font-bold text-green-600">{{ totalIncome().toFixed(2) }}</p>
           </div>
           
           <!-- Total Expenses -->
           <div class="nudge-bg-primary rounded-2xl p-6 border-l-4 border-red-500">
             <p class="text-red-600 text-sm mb-2">Total Expenses</p>
-            <p class="text-4xl font-bold text-red-600">-\${{ totalExpenses.toFixed(2) }}</p>
+            <p class="text-4xl font-bold text-red-600">{{ totalExpenses().toFixed(2) }}</p>
           </div>
         </div>
 
@@ -34,36 +34,20 @@
                 placeholder="Search transactions..."
                 class="w-full pl-12 pr-4 py-3 nudge-bg-secondary rounded-lg nudge-text-primary placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
                 [(ngModel)]="searchTerm"
+                (ngModelChange)="onChangeSearch()"
               />
             </div>
+
+            <p-select [options]="transactionTypes()" [(ngModel)]="types" [checkmark]="true" (ngModelChange)="onFilterbyTransaction()"   placeholder="Select a type" class="w-full md:w-56 " />
+
+
+     
             
-            <button class="flex items-center gap-2 px-4 py-3 nudge-border rounded-lg hover:bg-gray-50 transition-colors">
-              <span class="nudge-text-secondary">All Types</span>
-              <svg class="w-4 h-4 nudge-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
+         <p-select [options]="categoriesList()" [(ngModel)]="categorieId" (ngModelChange)="onFilterByCategory()" [showClear]="true" [checkmark]="true" optionLabel="name" optionValue="id"  placeholder="Select Categories" class="w-full md:w-56 " />
             
-            <button class="flex items-center gap-2 px-4 py-3 nudge-border rounded-lg hover:bg-gray-50 transition-colors">
-              <span class="nudge-text-secondary">All Categories</span>
-              <svg class="w-4 h-4 nudge-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            
-            <button class="flex items-center gap-2 px-4 py-3 nudge-border rounded-lg hover:bg-gray-50 transition-colors">
-              <span class="nudge-text-secondary">Date</span>
-              <svg class="w-4 h-4 nudge-text-tertiary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-              </svg>
-            </button>
-            
-            <button class="flex items-center gap-2 px-4 py-3 nudge-border rounded-lg hover:bg-gray-50 transition-colors">
-              <svg class="w-4 h-4 nudge-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-              </svg>
-              <span class="nudge-text-secondary">Export</span>
-            </button>
+             <p-select [options]="sortByList()" [(ngModel)]="sortBy" [checkmark]="true" (ngModelChange)="onFilterSortby()"   placeholder="Sort by" class="w-full md:w-56 " />
+
+      
           </div>
         </div>
 
@@ -75,46 +59,81 @@
           </div>
           
           <div class="divide-y divide-gray-100">
-            <div *ngFor="let transaction of transactions" 
-                 class="p-6 hover:bg-gray-50 transition-colors">
+            @for (transaction of transactions(); track transaction.id) {
+            <div  
+                 class="p-6  hover:nudge-bg-secondary transition-colors">
               <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
-                  <div [class]="'w-12 h-12 rounded-full flex items-center justify-center ' + 
-                               (transaction.type === 'income' ? 'bg-green-50' : 'bg-red-50')">
-                    <span [class]="transaction.type === 'income' ? 'text-green-600' : 'text-red-600'"
-                          [innerHTML]="getTransactionIcon(transaction.icon)">
+                  <div [class]="'w-12 h-12 rounded-full flex items-center justify-center '" [style.background]="transaction.category.color" >
+                    <span [class]="transaction.transaction_type === 'income' ? 'text-green-600' : 'text-red-600'"
+                          >
                     </span>
+                    <i [class]="transaction.category.icon" style="color: white;"  ></i>
                   </div>
                   
                   <div>
-                    <h3 class="font-semibold nudge-text-primary">{{ transaction.title }}</h3>
+                    <h3 class="font-semibold nudge-text-primary">{{ transaction.description }}</h3>
                     <p class="text-sm nudge-text-secondary">
-                      {{ transaction.category }} • {{ transaction.date }}
+                      {{ transaction.category.name }} • {{ transaction.created_at | date :'dd MMM yyyy' }}
                     </p>
                   </div>
                 </div>
                 
                 <div class="flex items-center gap-4">
                   <span [class]="'text-xl font-bold ' + 
-                                 (transaction.type === 'income' ? 'text-green-600' : 'text-red-600')">
-                    {{ transaction.type === 'income' ? '+' : '-' }}\${{ transaction.amount.toFixed(2) }}
+                                 (transaction.transaction_type === 'income' ? 'text-green-600' : 'text-red-600')">
+                    {{ transaction.transaction_type === 'income' ? '+' : '-' }} {{ transaction.amount.toFixed(2) }}
                   </span>
                   
                   <button [class]="'p-2 rounded-lg ' + 
-                                   (transaction.type === 'income' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600')">
+                                   (transaction.transaction_type === 'income' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-600')">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                            [attr.d]="transaction.type === 'income' ? 'M19 14l-7 7m0 0l-7-7m7 7V3' : 'M5 10l7-7m0 0l7 7m-7-7v18'" />
+                            [attr.d]="transaction.transaction_type === 'income' ? 'M19 14l-7 7m0 0l-7-7m7 7V3' : 'M5 10l7-7m0 0l7 7m-7-7v18'" />
                     </svg>
                   </button>
                   
-                  <button class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                    <svg class="w-5 h-5 nudge-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                    </svg>
-                  </button>
+                  <div class="relative" #menuContainer>
+            <button 
+              (click)="toggleMenu(transaction.id)"
+              class="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="More options"
+            >
+              <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"></path>
+              </svg>
+            </button>
+            @if (openMenuIndex===transaction.id) {
+    <div 
+             
+              class="absolute right-[70%] top-[-120%] mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-10 animate-fadeIn"
+            >
+              <button 
+                (click)="onClickOpenAddTransactionDialog(transaction.id)"
+                class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors"
+              >
+                Edit
+              </button>
+              <button 
+                (click)="onDelete(transaction.id)"
+                class="w-full text-left px-4 py-2 text-red-600 hover:bg-red-100 transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+            }
+        
+          </div>
                 </div>
               </div>
             </div>
+          }@empty {
+            <p class="text-3xl p-4 text-center">No transactions Found</p> 
+          }
           </div>
         </div>
+
+<p-confirmDialog ></p-confirmDialog>
+@if (loaderService.loading$|async) {
+  <app-loader/>
+}

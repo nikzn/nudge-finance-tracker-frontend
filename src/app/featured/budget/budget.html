@@ -1,0 +1,120 @@
+ 
+ <app-navbar [config]="config" />
+ <div class="min-h-screen nudge-bg-primary px-6 py-8 ">
+      <div class="max-w-7xl mx-auto">
+        <!-- Header Card -->
+        <div class="nudge-bg-secondary rounded-lg shadow-sm p-8 mb-8">
+          <div class="flex justify-between items-start mb-6">
+            <div>
+              <h1 class="text-3xl font-bold nudge-text-primary mb-1">
+                Monthly Overview
+              </h1>
+              <p class="nudge-text-secondary">January 2026</p>
+            </div>
+            <div class="text-right">
+              <div class="flex gap-8">
+                <div>
+                  <p class="nudge-text-secondary text-sm mb-1">Spent</p>
+                  <p class="text-3xl font-bold nudge-text-primary">
+                    {{ formatCurrency(totalSpent) }}
+                  </p>
+                </div>
+                <div>
+                  <p class="nudge-text-secondary text-sm mb-1">Budget</p>
+                  <p class="text-3xl font-bold nudge-text-primary">
+                    {{ formatCurrency(totalBudget) }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="flex justify-between items-center mb-2">
+              <span class="nudge-text-secondary">Overall Progress</span>
+              <span class="nudge-text-secondary">
+                {{ overallProgress.toFixed(1) }}%
+              </span>
+            </div>
+            <div class="progress-bar">
+              <div 
+                class="progress-fill" 
+                [style.width.%]="Math.min(overallProgress, 100)">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          @for (category of budgetList(); track category.id) {
+  <div 
+           
+            class="nudge-bg-secondary rounded-lg shadow-sm p-6 category-card">
+            
+            <!-- Category Header -->
+            <div class="flex items-start justify-between mb-6">
+              <div class="flex items-center gap-3">
+             
+                <div>
+                  <h3 class="font-semibold nudge-text-primary text-lg">
+                    {{ category.name }}
+                  </h3>
+                  <p class="nudge-text-secondary text-sm">
+                    {{ formatCurrency(category.spent) }} of {{ formatCurrency(category.amount) }}
+                  </p>
+                </div>
+              </div>
+              <div class="flex gap-2">
+                <button 
+                  class="icon-button nudge-text-secondary"
+                  (click)="onClickEditBudget(category)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/>
+                    <path d="m15 5 4 4"/>
+                  </svg>
+                </button>
+                <button 
+                  class="icon-button nudge-text-secondary"
+                  (click)="deleteCategory(category.id)">
+                 <i class="pi pi-trash" style="color: red;"></i>
+                </button>
+              </div>
+            </div>
+            
+            @if (category.flag) {
+              <div class="flex gap-2 items-center justify-self-center ">
+                      <input
+              type="number"
+                [(ngModel)]="amount"
+              placeholder="0.00"
+              step="1"
+              class="w-full pl-10 pr-4 py-4 nudge-border rounded-xl nudge-bg-primary nudge-text-primary placeholder-opacity-50 focus:outline-none focus:ring-2 focus:ring-offset-2"
+              [style.--tw-ring-color]="'var(--primary)'"
+            />
+            <span class="p-3 bg-green-400 hover:bg-green-500 rounded-md" (click)="updateValue(category)">
+              <i class="pi pi-check"></i>
+            </span>
+           <span class="p-3 bg-red-400 hover:bg-red-500 rounded-md" (click)="cancelEdit(category)">
+<i class="pi pi-times"></i>
+           </span>
+            
+
+            </div>
+            }@else {
+   <!-- Progress Info -->
+            <div class="flex justify-between items-center nudge-text-secondary text-sm">
+              <span>{{ getPercentageUsed(category.spent, category.amount).toFixed(0) }}% used</span>
+              <span>{{ formatCurrency(category.amount - category.spent) }} left</span>
+            </div>
+            }
+         
+          </div>
+          }@empty {
+            <p>No Budgets found !!</p>
+          }
+          
+        </div>
+      </div>
+    </div>
+    <p-confirmDialog/>

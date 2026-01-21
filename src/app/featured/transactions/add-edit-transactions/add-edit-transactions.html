@@ -1,4 +1,4 @@
-<div class="fixed inset-0  flex items-center justify-center p-4">
+<div class=" nudge-bg-primary rounded-lg shadow-xl  w-[28rem]  max-h-[90vh] flex flex-col">
       <div class="nudge-bg-primary rounded-lg shadow-xl w-full max-w-md">
         <!-- Header -->
         <div class="flex items-center justify-between p-6 nudge-border-light border-b">
@@ -20,7 +20,7 @@
             <button
               (click)="transactionType = 'income'"
               [class]="transactionType === 'income' 
-                ? 'flex-1 py-3 px-4 rounded-lg font-medium transition-colors nudge-bg-secondary nudge-text-primary'
+                ? 'flex-1 py-3 px-4 rounded-lg font-medium transition-colors bg-green-500 text-white nudge-border hover:bg-green-600'
                 : 'flex-1 py-3 px-4 rounded-lg font-medium transition-colors nudge-bg-primary nudge-text-tertiary nudge-border hover:nudge-bg-secondary'"
             >
               <span class="inline-flex items-center justify-center gap-2">
@@ -40,7 +40,7 @@
               </span>
             </button>
           </div>
-
+          <form [formGroup]="categoryForm" class="flex flex-col gap-3 " >
           <!-- Amount Input -->
           <div>
             <label class="block text-sm font-medium nudge-text-primary mb-2">
@@ -50,12 +50,20 @@
               <span class="absolute left-4 top-1/2 -translate-y-1/2 nudge-text-tertiary">$</span>
               <input
                 type="number"
-                [(ngModel)]="amount"
-                step="0.01"
+                formControlName="amount"
+                step="1"
+                min="1"
                 placeholder="0.00"
                 class="w-full pl-8 pr-4 py-3 nudge-border rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 nudge-bg-primary nudge-text-primary placeholder:nudge-text-tertiary"
               />
             </div>
+           @if ((amount.touched || amount.dirty) && amount.errors?.['min']) {
+  <small class=" text-red-700">
+    Amount should be greater than 1
+  </small>
+}
+
+          
           </div>
 
           <!-- Category Dropdown -->
@@ -65,21 +73,25 @@
             </label>
             <div class="relative">
               <select
-                [(ngModel)]="category"
+                formControlName="category_id"
                 class="w-full px-4 py-3 nudge-border rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-opacity-50 nudge-bg-primary nudge-text-primary"
               >
-                <option value="" disabled selected>Select a category</option>
-                <option value="food">Food & Dining</option>
-                <option value="transport">Transportation</option>
-                <option value="shopping">Shopping</option>
-                <option value="entertainment">Entertainment</option>
-                <option value="bills">Bills & Utilities</option>
-                <option value="other">Other</option>
+                     @for (item of categoryList(); track item.id) {
+            <option [value]="item.id">{{item.name}}</option>
+                
+                  }
               </select>
               <svg class="absolute right-4 top-1/2 -translate-y-1/2 w-5 h-5 nudge-text-tertiary pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </div>
+
+              @if ((categories.touched || categories.dirty) && categories.errors) {
+  <small class=" text-red-700">
+    Category is required
+  </small>
+}
+
           </div>
 
           <!-- Description Input -->
@@ -89,7 +101,7 @@
             </label>
             <input
               type="text"
-              [(ngModel)]="description"
+              formControlName="description"
               placeholder="Enter description"
               class="w-full px-4 py-3 nudge-border rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 nudge-bg-primary nudge-text-primary placeholder:nudge-text-tertiary"
             />
@@ -100,11 +112,17 @@
             <label class="block text-sm font-medium nudge-text-primary mb-2">
               Date
             </label>
-            <input
-              type="date"
-              [(ngModel)]="date"
-              class="w-full px-4 py-3 nudge-border rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 nudge-bg-primary nudge-text-primary"
-            />
+            <p-datepicker    type="datetime"
+            formControlName="transaction_date"
+              class="w-full  rounded-lg focus:outline-none focus:ring-2 focus:ring-opacity-50 nudge-bg-primary nudge-text-primary" [showIcon]="true" inputId="buttondisplay" [inputStyle]="{width:'100%'}" [showOnFocus]="false" />
+      
+              @if ((TransactionDate.touched || TransactionDate.dirty) && TransactionDate.errors) {
+  <small class=" text-red-700">
+   Date is required
+  </small>
+}
+
+            
           </div>
 
           <!-- Submit Button -->
@@ -114,6 +132,8 @@
           >
             Add Transaction
           </button>
+        </form>
         </div>
+        
       </div>
     </div>

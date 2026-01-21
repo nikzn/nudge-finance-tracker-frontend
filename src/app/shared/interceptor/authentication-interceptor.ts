@@ -29,11 +29,15 @@ export const authenticationInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(authReq).pipe(
     catchError((error: HttpErrorResponse) => {
-
+        console.log('status:', error.status);       // 401 (REAL)
+    console.log('erroror:', error.error);         // backend message
+    console.log(error);      
+      console.log(error.status);
+      
       if (error.status === 401 && !req.url.includes('api/auth/refresh')) {
 
         const refreshToken = authService.getRefreshTokenFromStorage();
-
+        alert("Refresh token system runnig")
         if (!refreshToken) {
           authService.logOut();
           return throwError(() => error);

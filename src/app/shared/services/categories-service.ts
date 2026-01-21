@@ -12,7 +12,7 @@ export class CategoriesService {
     http = inject(HttpClient)
 
     listCategoriesURL = this.baseUrl+'/api/categories/';
-    
+    categoryTypesURL = this.baseUrl+'/api/transactions/types/';
     
     
     addOrEditCategoriesApi(data:CategoriesRequest):Observable<any>{
@@ -37,6 +37,8 @@ export class CategoriesService {
       return this.http.delete<number>(this.listCategoriesURL+`${category_id}`)
     }
 
-
+    addOrEditTransactionsApi(data:any):Observable<any>{
+      return this.http.post<any>(this.categoryTypesURL,{...data})
+    }
 
 }

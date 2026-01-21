@@ -11,6 +11,8 @@ import { AccessDenied } from './shared/component/access-denied/access-denied';
 import { authGuard } from './shared/guards/auth-guard';
 import { Transactions } from './featured/transactions/transactions';
 import { Categories } from './featured/categories/categories';
+import { Budget } from './featured/budget/budget';
+import { Reports } from './featured/reports/reports';
 
 export const routes: Routes = [
     { path: '', component: Homepage },
@@ -21,9 +23,11 @@ export const routes: Routes = [
     {path:'server-error',component:NotFound},
     {
         path: '', component: Sidemenu,canActivateChild:[authGuard]  ,children: [
-            { path: 'dashboard', component:WorkInProgress },
+            { path: 'dashboard', component:Dashboard },
                  { path: 'transactions', component:Transactions },
-                    { path: 'categories', component:Categories }
+                    { path: 'categories', component:Categories },
+                     { path: 'budgets', component:Budget },
+                       { path: 'report', component:Reports }
         ]
     },
     {path:"**",component:PageNotFound}

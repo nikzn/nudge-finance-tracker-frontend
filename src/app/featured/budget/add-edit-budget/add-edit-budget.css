@@ -1,0 +1,12 @@
+ input::placeholder {
+      color: var(--text-tertiary);
+      opacity: 0.6;
+    }
+    
+    input:focus {
+      --tw-ring-color: var(--primary);
+    }
+    
+    button:focus {
+      --tw-ring-color: var(--primary);
+    }

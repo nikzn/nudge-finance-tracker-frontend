@@ -1,0 +1,41 @@
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      @for (card of cards; track $index) {
+    <div
+         
+          class="nudge-bg-primary rounded-2xl p-6 shadow-sm border-l-4 relative {{card.borderClass}}"
+        >
+          <!-- Icon -->
+          <div class="absolute top-6 right-6 {{card.iconBgClass}} rounded-xl p-3">
+            <svg
+              class="w-6 h-6 {{card.iconColorClass}}"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                [attr.d]="card.iconPath"
+              ></path>
+            </svg>
+          </div>
+
+          <!-- Content -->
+          <div class="space-y-2">
+            <h3 class="nudge-text-secondary text-sm font-medium">{{ card.title }}</h3>
+            <p class="text-3xl font-bold nudge-text-primary">{{ card.amount }}</p>
+            <p class="text-sm">
+              <span [class]="card.isPositive ? 'text-green-600' : 'text-red-600'">
+                {{ card.change }}
+              </span>
+              <span class="nudge-text-tertiary ml-1" *ngIf="card.changeLabel">{{ card.changeLabel }}</span>
+            </p>
+          </div>
+        </div>
+      }
+    
+      </div>
+ 

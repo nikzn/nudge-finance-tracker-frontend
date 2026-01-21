@@ -1,44 +1,171 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, DestroyRef, ElementRef, HostListener, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { Transactionsservice } from '../../shared/services/transactionsservice';
 import { Navbar } from "../sidemenu/navbar/navbar";
 import { NavbarConfig } from '../../shared/interfaces/navbar.interface';
 import { FormsModule } from '@angular/forms';
-  import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AddEditTransactions } from './add-edit-transactions/add-edit-transactions';
+import { Transaction } from '../../shared/interfaces/transaction.interface';
+import { AsyncPipe, DatePipe } from '@angular/common';
+import { ConfirmationService, MenuItem } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { Toasterservice } from '../../shared/services/toasterservice';
+import { takeUntil } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { Loaderservice } from '../../shared/services/loaderservice';
+import { Loader } from '../../shared/component/loader/loader';
+import { Select } from 'primeng/select';
+import { Categories } from '../categories/categories';
+import { CategoriesResponse } from '../../shared/interfaces/categories.interface';
 @Component({
   selector: 'app-transactions',
-  imports: [Navbar,FormsModule,DynamicDialogModule],
-  providers:[DialogService],
+  imports: [Navbar, FormsModule, DynamicDialogModule,DatePipe,ConfirmDialogModule,AsyncPipe,Loader,Select],
+  providers: [DialogService,ConfirmationService],
   templateUrl: './transactions.html',
   styleUrl: './transactions.css',
 })
-export class Transactions implements OnInit,OnDestroy {
-private transactionService = inject(Transactionsservice)
+export class Transactions implements OnInit, OnDestroy {
 
- constructor(public dialogService: DialogService) {}
-  ref: DynamicDialogRef | undefined;
-config:NavbarConfig ={
-title:'Transactions',
-subtitle:'View and manage all your transactions',
-actions:[{
-  type:'primary',
-  icon:'pi pi-plus',
-  label:'Add Transaction',
-  onClick:()=>this.onClickOpenAddTransactionDialog()
+ 
+  constructor(public loaderService:Loaderservice, public dialogService: DialogService, private transactionService: Transactionsservice,private elementRef: ElementRef,private confirmationService:ConfirmationService,private toasterService:Toasterservice,private destroyRef:DestroyRef) { }
 
-}]
-}
-transactions: any[] = [];
+  openMenuIndex: number | null = null;
+   items: MenuItem[] | undefined;
+  ref: DynamicDialogRef<AddEditTransactions> | null = null;
+  config: NavbarConfig = {
+    title: 'Transactions',
+    subtitle: 'View and manage all your transactions',
+    actions: [{
+      type: 'primary',
+      icon: 'pi pi-plus',
+      label: 'Add Transaction',
+      onClick: () => this.onClickOpenAddTransactionDialog()
+
+    }]
+  }
+  tempTransaction:Transaction[]=[]
+  transactions= signal<Transaction[]>([])
   searchTerm = '';
- totalIncome = 0;
-  totalExpenses = 0;
-  totalCount = 0;
+  totalIncome = signal<number>(0)
+  totalExpenses = signal<number>(0);
+  totalCount = signal<number>(0);
+  types:'income'|'expense'|'all' = 'all'
+  transactionTypes = signal<any[]>(["all","income","expense"])
+  categoriesList = signal<CategoriesResponse[]>([])
+  sortByList = signal<any[]>(['amount','date'])
+  categorieId!:number
+  sortBy:string='date'
 
-ngOnInit(): void {
-  //this.addTransactions()
+
+  ngOnInit(): void {
+   this.listTransactions()
+  }
+
+
+
+  toggleMenu(index:number) {
+   this.openMenuIndex = this.openMenuIndex === index ? null : index;
+  }
+
+applyFilters() {
+  let data = [...this.tempTransaction]; // clone to avoid mutation
+
+  const term = this.searchTerm?.trim().toLowerCase();
+
+  // 🔍 Search
+  if (term) {
+    data = data.filter(txn =>
+      txn.description?.toLowerCase().includes(term) ||
+      txn.amount?.toString().includes(term) ||
+      txn.transaction_date?.toString().toLowerCase().includes(term)
+    );
+  }
+
+  // 📂 Category filter
+  if (this.categorieId) {
+    data = data.filter(
+      txn => txn.category?.id === this.categorieId
+    );
+  }
+
+  // 🔄 Transaction type
+  if (this.types && this.types !== 'all') {
+    data = data.filter(
+      txn => txn.transaction_type === this.types
+    );
+  }
+
+  // ↕ Sorting
+  if (this.sortBy === 'date') {
+    data = data.sort(
+      (a, b) =>
+        new Date(b.transaction_date).getTime() -
+        new Date(a.transaction_date).getTime()
+    );
+  } else if (this.sortBy === 'amount') {
+    data = data.sort((a, b) => b.amount - a.amount);
+  }
+
+  this.transactions.set(data);
 }
 
-openSettings(): void {
+onChangeSearch() {
+  this.applyFilters();
+}
+
+onFilterByCategory() {
+  this.applyFilters();
+}
+
+onFilterbyTransaction() {
+  this.applyFilters();
+}
+
+onFilterSortby() {
+  this.applyFilters();
+}
+
+
+  onDelete(id:number) {
+       this.confirmationService.confirm({
+            header: 'Confirmation',
+            message: 'Are you sure you want to delete.',
+            icon: 'pi pi-exclamation-circle',
+           rejectButtonProps: {
+        label: 'Cancel',
+        severity: 'secondary',
+        outlined: true,
+      },
+            acceptButtonProps: {
+                label: 'Delete',
+                icon: 'pi pi-check',
+                severity:'danger'
+            },
+            accept: () => {
+                this.transactionService.deleteTransactionByIDApi(id).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res=>{
+                  this.toasterService.success("delete")
+                  this.listTransactions()
+                })
+            },
+            reject: () => {
+            }
+        });
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const clickedInside = this.elementRef.nativeElement.contains(event.target);
+    if (!clickedInside) {
+      this.openMenuIndex = null;
+    }
+  }
+
+
+
+
+
+
+  openSettings(): void {
     alert('Opening settings...');
   }
 
@@ -50,47 +177,55 @@ openSettings(): void {
     alert('Opening add transaction form...');
   }
 
-  getTransactionIcon(iconName: string): string {
-    const icons: { [key: string]: string } = {
-      'briefcase': '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>',
-      'home': '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" /></svg>',
-      'lightbulb': '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>'
-    };
-    return icons[iconName] || '';
+  listTransactions(){
+    this.transactionService.listTransactionApi().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(res=>{
+      this.transactions.set(res.transactions)
+      this.tempTransaction = res.transactions
+      this.totalCount.set(res.total_count)
+      this.totalExpenses.set(res.total_expense)
+      this.totalIncome.set(res.total_income)
+      
+const uniqueData:any = [...new Map(
+  res.transactions.map(item => [item.category.id, item.category])
+).values()];
+      this.categoriesList.set(uniqueData)
+      
+      
+    })
   }
 
-// addTransactions(){
-// this.transactionService.getTransactionListApi().subscribe(res=>{
-//   console.log(res);
-  
-// })
-
-
-// }
-
-
-onClickOpenAddTransactionDialog(){
- this.dialogService.open(AddEditTransactions, {
-            showHeader:false,
-            width: '50vw',
-            modal: true,
-            closable:true,
-            contentStyle: { overflow: 'auto' },
-            breakpoints: {
-                '960px': '75vw',
-                '640px': '90vw'
-            }
-        });
 
 
 
-}
+  onClickOpenAddTransactionDialog(id:number|null=null) {
+    this.openMenuIndex=null;
+    this.ref = this.dialogService.open(AddEditTransactions, {
+      data:{"id":id},
+      showHeader: false,
+      modal: true,
+      closable: true,
+       contentStyle: { overflow: 'hidden', padding: '0px' },
+      breakpoints: {
+        '960px': '75vw',
+        '640px': '90vw'
+      }
+    });
 
-ngOnDestroy() {
-        if (this.ref) {
-            this.ref.close();
-        }
+      if (this.ref) {
+      this.ref.onClose.subscribe((result) => {
 
-}
+        this.listTransactions()
+      });
+    }
+
+
+  }
+
+  ngOnDestroy() {
+    if (this.ref) {
+      this.ref.close();
+    }
+
+  }
 
 }

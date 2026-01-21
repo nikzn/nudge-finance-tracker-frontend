@@ -28,7 +28,7 @@ isExpanded = true;
     {
       icon: 'pi pi-objects-column',
       label: 'Dashboard',
-      link:'/transactions'
+      link:'/dashboard'
       
     },
     {
@@ -44,12 +44,12 @@ isExpanded = true;
     {
       icon: 'pi pi-shopping-bag',
       label: 'Budget',
-      link:'/transactions'
+      link:'/budgets'
     },
     {
       icon: 'pi pi-chart-pie',
       label: 'Reports',
-      link:'/transactions'
+      link:'/report'
     },
     {
       icon: 'pi pi-cog',
