@@ -36,21 +36,21 @@
           All
         </button>
         <button 
-          (click)="setFilter('expense')"
-          [class.nudge-primary]="activeFilter === 'expense'"
-          [class.nudge-bg-secondary]="activeFilter !== 'expense'"
+          (click)="setFilter('EXPENSE')"
+          [class.nudge-primary]="activeFilter === 'EXPENSE'"
+          [class.nudge-bg-secondary]="activeFilter !== 'EXPENSE'"
           class="px-6 py-2 rounded-lg font-medium transition-all"
-          [class.text-white]="activeFilter === 'expense'"
-          [class.nudge-text-primary]="activeFilter !== 'expense'">
+          [class.text-white]="activeFilter === 'EXPENSE'"
+          [class.nudge-text-primary]="activeFilter !== 'EXPENSE'">
           Expense
         </button>
         <button 
-          (click)="setFilter('income')"
-          [class.nudge-primary]="activeFilter === 'income'"
-          [class.nudge-bg-secondary]="activeFilter !== 'income'"
+          (click)="setFilter('INCOME')"
+          [class.nudge-primary]="activeFilter === 'INCOME'"
+          [class.nudge-bg-secondary]="activeFilter !== 'INCOME'"
           class="px-6 py-2 rounded-lg font-medium transition-all"
-          [class.text-white]="activeFilter === 'income'"
-          [class.nudge-text-primary]="activeFilter !== 'income'">
+          [class.text-white]="activeFilter === 'INCOME'"
+          [class.nudge-text-primary]="activeFilter !== 'INCOME'">
           Income
         </button>
       </div>
@@ -80,10 +80,10 @@
           </div>
         </div>
         <span 
-          [class.bg-red-50]="category.transaction_type === 'expense'"
-          [class.text-red-600]="category.transaction_type === 'expense'"
-          [class.bg-green-50]="category.transaction_type === 'income'"
-          [class.text-green-600]="category.transaction_type === 'income'"
+          [class.bg-red-50]="category.transaction_type === 'EXPENSE'"
+          [class.text-red-600]="category.transaction_type === 'EXPENSE'"
+          [class.bg-green-50]="category.transaction_type === 'INCOME'"
+          [class.text-green-600]="category.transaction_type === 'INCOME'"
           class="inline-block px-3 py-1 rounded-md text-sm font-medium capitalize">
           {{ category.transaction_type }}
         </span>

@@ -47,14 +47,9 @@ isExpanded = true;
       link:'/budgets'
     },
     {
-      icon: 'pi pi-chart-pie',
-      label: 'Reports',
-      link:'/report'
-    },
-    {
       icon: 'pi pi-cog',
       label: 'Settings',
-      link:'/transactions'
+      link:'/settings'
     }
   ];
 

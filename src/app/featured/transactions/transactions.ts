@@ -6,7 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { AddEditTransactions } from './add-edit-transactions/add-edit-transactions';
 import { Transaction } from '../../shared/interfaces/transaction.interface';
-import { AsyncPipe, DatePipe } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe } from '@angular/common';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { Toasterservice } from '../../shared/services/toasterservice';
@@ -19,7 +19,7 @@ import { Categories } from '../categories/categories';
 import { CategoriesResponse } from '../../shared/interfaces/categories.interface';
 @Component({
   selector: 'app-transactions',
-  imports: [Navbar, FormsModule, DynamicDialogModule,DatePipe,ConfirmDialogModule,AsyncPipe,Loader,Select],
+  imports: [Navbar, FormsModule, DynamicDialogModule,DatePipe,ConfirmDialogModule,AsyncPipe,Loader,Select,CurrencyPipe],
   providers: [DialogService,ConfirmationService],
   templateUrl: './transactions.html',
   styleUrl: './transactions.css',
@@ -49,8 +49,8 @@ export class Transactions implements OnInit, OnDestroy {
   totalIncome = signal<number>(0)
   totalExpenses = signal<number>(0);
   totalCount = signal<number>(0);
-  types:'income'|'expense'|'all' = 'all'
-  transactionTypes = signal<any[]>(["all","income","expense"])
+  types:'income'|'expense'|'all'|'INCOME'|'EXPENSE' = 'all'
+  transactionTypes = signal<any[]>(["all","INCOME","EXPENSE"])
   categoriesList = signal<CategoriesResponse[]>([])
   sortByList = signal<any[]>(['amount','date'])
   categorieId!:number

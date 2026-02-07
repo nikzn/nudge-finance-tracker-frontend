@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectorRef, Component, effect, inject, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, input, OnChanges, PLATFORM_ID, SimpleChanges } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
+import { SpendingCategory } from '../../../featured/dashboard/dashboard';
 
 @Component({
   selector: 'app-donut-chart',
@@ -8,7 +9,10 @@ import { ChartModule } from 'primeng/chart';
   templateUrl: './donut-chart.html',
   styleUrl: './donut-chart.css',
 })
-export class DonutChart {
+export class DonutChart implements OnChanges {
+
+    spendingByCategoryData = input<SpendingCategory[]>([])
+
  data: any;
 
     options: any;
@@ -24,16 +28,22 @@ export class DonutChart {
         this.initChart();
     }
 
+    ngOnChanges(changes: SimpleChanges): void {
+        console.log(this.spendingByCategoryData())
+        this.initChart()
+    }
+
     initChart() {
+        console.log(this.spendingByCategoryData())
         if (isPlatformBrowser(this.platformId)) {
             const documentStyle = getComputedStyle(document.documentElement);
             const textColor = documentStyle.getPropertyValue('--p-text-color');
 
             this.data = {
-                labels: ['A', 'B', 'C'],
+                labels: this.spendingByCategoryData()?.map(data=>data.category),
                 datasets: [
                     {
-                        data: [300, 50, 100],
+                        data:  this.spendingByCategoryData()?.map(data=>data.amount),
                         backgroundColor: [documentStyle.getPropertyValue('--p-cyan-500'), documentStyle.getPropertyValue('--p-orange-500'), documentStyle.getPropertyValue('--p-gray-500')],
                         hoverBackgroundColor: [documentStyle.getPropertyValue('--p-cyan-400'), documentStyle.getPropertyValue('--p-orange-400'), documentStyle.getPropertyValue('--p-gray-400')]
                     }

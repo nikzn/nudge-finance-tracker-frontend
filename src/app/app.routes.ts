@@ -12,7 +12,7 @@ import { authGuard } from './shared/guards/auth-guard';
 import { Transactions } from './featured/transactions/transactions';
 import { Categories } from './featured/categories/categories';
 import { Budget } from './featured/budget/budget';
-import { Reports } from './featured/reports/reports';
+import { Settings } from './featured/settings/settings';
 
 export const routes: Routes = [
     { path: '', component: Homepage },
@@ -27,7 +27,7 @@ export const routes: Routes = [
                  { path: 'transactions', component:Transactions },
                     { path: 'categories', component:Categories },
                      { path: 'budgets', component:Budget },
-                       { path: 'report', component:Reports }
+                       { path: 'settings', component:Settings }
         ]
     },
     {path:"**",component:PageNotFound}

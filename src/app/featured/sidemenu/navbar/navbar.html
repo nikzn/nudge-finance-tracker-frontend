@@ -21,10 +21,11 @@
               </svg>
             </div> -->
             
+                            <p-select [options]="availableThemes" [(ngModel)]="currentTheme" [checkmark]="true" optionLabel="label" optionValue="value" (ngModelChange)="onThemeChange()"   placeholder="Select a Theme"  class="w-full md:w-56" />
+
             <!-- Dynamic Action Buttons -->
             <ng-container *ngFor="let action of config.actions">
               <!-- Notification Button -->
-                <p-select [options]="availableThemes" [(ngModel)]="currentTheme" [checkmark]="true" optionLabel="label" optionValue="value" (ngModelChange)="onThemeChange()"   placeholder="Select a Theme"  class="w-full md:w-56" />
 
               <!-- Primary Button -->
               <button 

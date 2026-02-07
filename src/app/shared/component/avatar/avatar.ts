@@ -11,6 +11,7 @@ import { userDetails } from '../../interfaces/authResponse.interface';
 })
 export class Avatar {
  
+  isExpanded = input<boolean>();
 
   authService = inject(Authenticationservice);
 
@@ -29,6 +30,5 @@ export class Avatar {
       : parts[0][0] + parts[parts.length - 1][0];
   });
 
-  isExpanded = input<boolean>();
 
 }

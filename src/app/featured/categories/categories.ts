@@ -16,7 +16,7 @@ interface Category {
   name: string;
   description: string;
   icon: string;
-  transaction_type: 'expense' | 'income';
+  transaction_type: 'EXPENSE' | 'INCOME';
   color: string;
 }
 
@@ -65,23 +65,23 @@ export class Categories {
 
     }
   }
-  activeFilter: 'all' | 'expense' | 'income' = 'all';
+  activeFilter: 'all' | 'EXPENSE' | 'INCOME' = 'all';
 
   get totalCategories(): number {
     return this.categories.length;
   }
 
   get expenseCount(): number {
-    return this.categories.filter(c => c.transaction_type === 'expense').length;
+    return this.categories.filter(c => c.transaction_type === 'EXPENSE').length;
   }
 
   get incomeCount(): number {
-    return this.categories.filter(c => c.transaction_type === 'income').length;
+    return this.categories.filter(c => c.transaction_type === 'INCOME').length;
   }
 
 
 
-  setFilter(filter: 'all' | 'expense' | 'income'): void {
+  setFilter(filter: 'all' | 'EXPENSE' | 'INCOME'): void {
     this.activeFilter = filter;
     this.toggleCategory()
   }

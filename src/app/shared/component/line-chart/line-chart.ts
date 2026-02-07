@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
-import { ChangeDetectorRef, Component, effect, inject, PLATFORM_ID } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, inject, input, Input, OnChanges, PLATFORM_ID, SimpleChanges } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
+import { MonthlyData } from '../../../featured/dashboard/dashboard';
 
 @Component({
   selector: 'app-line-chart',
@@ -8,15 +9,35 @@ import { ChartModule } from 'primeng/chart';
   templateUrl: './line-chart.html',
   styleUrl: './line-chart.css',
 })
-export class LineChart {
+export class LineChart implements OnChanges {
+  incomeExpensesData =input<MonthlyData[]>()
+
   data: any;
 
     options: any;
 
     platformId = inject(PLATFORM_ID);
 
-    constructor(private cd: ChangeDetectorRef) {}
+    constructor(private cd: ChangeDetectorRef) {
+    //  effect(() => {
+    //   const data = this.incomeExpensesData();
+    //   if (data && data.length > 0) {
+    //     console.log('Data received:', data);
+    //     this.initChart();
+    //   }
+    // });
 
+    }
+
+
+
+    ngOnChanges(changes: SimpleChanges): void {
+       if (changes['incomeExpensesData'] && this.incomeExpensesData) {
+        console.log(changes)
+        console.log('Data received:', this.incomeExpensesData());
+        this.initChart();  
+    }
+    }
 
 
     ngOnInit() {
@@ -29,22 +50,22 @@ export class LineChart {
             const textColor = documentStyle.getPropertyValue('--p-text-color');
             const textColorSecondary = documentStyle.getPropertyValue('--p-text-muted-color');
             const surfaceBorder = documentStyle.getPropertyValue('--p-content-border-color');
-
+            console.log(this.incomeExpensesData())
             this.data = {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+                labels: this.incomeExpensesData()?.map(e=> e.month),
                 datasets: [
                     {
-                        label: 'First Dataset',
-                        data: [65, 59, 80, 81, 56, 55, 40],
+                        label: 'Income',
+                        data: this.incomeExpensesData()?.map(e=>e.income),
                         fill: false,
-                        borderColor: documentStyle.getPropertyValue('--p-cyan-500'),
+                        borderColor: documentStyle.getPropertyValue('--p-green-500'),
                         tension: 0.4
                     },
                     {
-                        label: 'Second Dataset',
-                        data: [28, 48, 40, 19, 86, 27, 90],
+                        label: 'Expenses',
+                        data:  this.incomeExpensesData()?.map(e=>e.expense),
                         fill: false,
-                        borderColor: documentStyle.getPropertyValue('--p-gray-500'),
+                        borderColor: documentStyle.getPropertyValue('--p-red-500'),
                         tension: 0.4
                     }
                 ]
