@@ -28,7 +28,9 @@ export class Authenticationservice {
   private loginURL: string = `${this.baseUrl}/api/auth/login`;
   private registerURL: string = `${this.baseUrl}/api/auth/register`;
   private refreshTokenURL:string = `${this.baseUrl}/api/auth/refresh`;
-
+constructor(){
+  console.log(this.baseUrl)
+}
 
   loginApi(data: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(this.loginURL, { ...data })
@@ -42,6 +44,7 @@ export class Authenticationservice {
   refreshTokenApi(token:string):Observable<any>{
     return this.http.post<any>(this.refreshTokenURL,token)
   }
+
 
 
   handleResponse(response: LoginResponse) {
