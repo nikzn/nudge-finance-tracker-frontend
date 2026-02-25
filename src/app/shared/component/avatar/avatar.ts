@@ -15,12 +15,15 @@ export class Avatar {
 
   authService = inject(Authenticationservice);
 
-  currentUser = this.authService.getCurrentUser();
+  currentUser = this.authService.getUserFromStorage();
 
   fullName = computed(() => this.currentUser?.full_name ?? '');
   email = computed(() => this.currentUser?.email ?? '');
 
   initial = computed(() => {
+      console.log(this.currentUser)
+    console.log(this.fullName())
+    console.log(this.email())
     const name = this.fullName().trim();
     if (!name) return '??';
 

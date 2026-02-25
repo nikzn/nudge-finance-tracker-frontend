@@ -26,7 +26,7 @@ export const routes: Routes = [
             { path: 'dashboard', component:Dashboard },
                  { path: 'transactions', component:Transactions },
                     { path: 'categories', component:Categories },
-                     { path: 'budgets', component:Budget },
+                     { path: 'budget', component:Budget },
                        { path: 'settings', component:Settings }
         ]
     },

@@ -71,8 +71,8 @@
         
         (click)="setActiveItem(item)"
         [ngClass]="{
-          'nudge-primary shadow-md': activeItem === item.label,
-          'hover:nudge-bg-tertiary nudge-text-secondary': activeItem !== item.label,
+          'nudge-primary shadow-md': activeItem.toLowerCase() === item.label.toLowerCase(),
+          'hover:nudge-bg-tertiary nudge-text-secondary': activeItem.toLowerCase() !== item.label.toLowerCase(),
           'justify-center': !isExpanded
         }"
         class="w-full flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 hover:nudge-primary hover:nudge-text-secondary cursor-pointer"
@@ -81,14 +81,14 @@
           class="w-5 h-5 flex-shrink-0"
           [ngClass]="[
             item.icon,
-            activeItem === item.label ? 'text-white' : 'nudge-text-tertiary'
+            activeItem.toLowerCase() === item.label.toLowerCase() ? 'text-white' : 'nudge-text-tertiary'
           ]"
         ></span>
         @if (isExpanded) {
     <span
           
           class="font-medium text-base"
-          [ngClass]="activeItem === item.label ? 'text-white' : 'nudge-text-primary'"
+          [ngClass]="activeItem.toLowerCase() === item.label.toLowerCase() ? 'text-white' : 'nudge-text-primary'"
         >
           {{ item.label }}
         </span>

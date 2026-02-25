@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { BehaviorSubject, catchError, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
@@ -17,9 +17,10 @@ export class Authenticationservice {
 
   private currentUserSubject = new BehaviorSubject<userDetails | null>(this.getUserFromStorage())
   public currentUser$ = this.currentUserSubject.asObservable()
-
-
-  http = inject(HttpClient)
+  private _currentUser = signal<userDetails | null>(null);
+  currentUser = this._currentUser.asReadonly();
+  
+http = inject(HttpClient)
   router = inject(Router)
   toaster = inject(Toasterservice)
 
@@ -47,18 +48,29 @@ constructor(){
 
 
 
-  handleResponse(response: LoginResponse) {
-    this.setUserData(response.user)
-    this.setAccessToken(response.access_token)
-    this.setRefreshToken(response.refresh_token)
-
+ handleResponse(response: LoginResponse) {
+    this.setUserData(response.user);
+    this.setAccessToken(response.access_token);
+    this.setRefreshToken(response.refresh_token);
   }
 
-   setUserData(response: userDetails) {
-    const userDetails = JSON.stringify(response)
-    localStorage.setItem(this.USER_KEY, userDetails)
+  setUserData(user: userDetails) {
+    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+    this._currentUser.set(user); // 🔥 reactive update
   }
 
+  getUserFromStorage(): userDetails | null {
+    const user = localStorage.getItem(this.USER_KEY);
+    return user ? JSON.parse(user) : null;
+  }
+
+  
+
+  logOut() {
+    localStorage.clear();
+    this._currentUser.set(null);
+    this.router.navigate(['/']);
+  }
    setAccessToken(accessToken: string) {
     const accessTokenStringfy = JSON.stringify(accessToken)
     localStorage.setItem(this.ACCESS_TOKEN_KEY, accessTokenStringfy)
@@ -69,10 +81,7 @@ constructor(){
     localStorage.setItem(this.REFRESH_TOKEN, refreshTokenStringFy)
   }
 
-   getUserFromStorage(): userDetails | null {
-    const userData = localStorage.getItem(this.USER_KEY)
-    return userData ? JSON.parse(userData) : null
-  }
+
 
 
      getRefreshTokenFromStorage(): string | null {
@@ -92,13 +101,9 @@ constructor(){
   }
 
    getCurrentUser():userDetails|null{
-    return this.currentUserSubject.value
+    return this._currentUser()
   }
 
-  logOut(){
-    localStorage.clear()
-    this.toaster.error('Logged Out')
-    this.router.navigate(['/'])
-  }
+
 
 }
